@@ -94,7 +94,14 @@ const protocolv3 = {
         }
     },
     async connect(config, socketURI, manifestURI, uponError = () => {}) { // TODO: make this handle URIs better, right now it makes a lot of assumptions
-        let manifest = await (await fetch(manifestURI)).json();
+        let manifest = undefined;
+        try {
+            manifest = await (await fetch(manifestURI)).json();
+        }
+        catch {
+            uponError();
+            return;
+        }
         var obj = {
             callbacks: {},
             appname: manifest.application_name,

@@ -10,28 +10,55 @@
         <div id="entryscreen">
             <div class="centext">
                 <h1>Multiplayer Tower Defense</h1>
-                <p>
-                    <i>By Tyler Clarke and 1000D</i><br>
-                    This is a real simple 2v2 tower defense game we're making to practice.<br>
-                    <input id="name" type="text" placeholder="Name..."><br>
-                    <input id="server" type="text" placeholder="Server..."><br>
-                    <input id="manifest" type="text" placeholder="Manifest (advanced)..."><br>
-                    <div class="center"><button id="play">Play!</button></div>
-                </p>
+                <i>By Tyler Clarke and 1000D</i><br>
+                This is a real simple 2v2 tower defense game we're making to practice.<br>
+                <input id="name" type="text" placeholder="Name..."><br>
+                <input id="server" type="text" placeholder="Server...">
+                <div id="server-menu">
+                    <button onclick="set('ws://localhost:8800', 'http://localhost:8800/manifest')">Local Development</button>
+                    <button onclick="set('wss://swaous.asuscomm.com/towerdefense/game', 'https://swaous.asuscomm.com/towerdefense/manifest')">swaous.asuscomm.com</button>
+                </div><br>
+                <input id="manifest" type="text" placeholder="Manifest (advanced)..."><br>
+                <div class="center"><button id="play" onclick="start().then(()=>{})">Play!</button></div>
             </div>
+        </div>
+        <div id="waiting">
+            <div class="centext">Waiting...</div>
+        </div>
+        <div id="error">
+            <div class="centext">An error occurred in the connection.</div>
         </div>
         <script src="protocol.js"></script>
         <script>
-            async function main() {
-                var connection = await protocolv3.connect(protocolv3.defaultConfig, "ws://localhost:8900", "http://localhost:8900/manifest", () => {
-
+            document.getElementById("error").onscreen = () => {setTimeout(() => {screen('entryscreen')}, 1000)};
+            function screen(sc) {
+                var el = document.getElementById(sc);
+                if (el.onscreen) {
+                    el.onscreen();
+                }
+                var els = document.querySelectorAll("body > div");
+                for (var i = 0; i < els.length; i ++) {
+                    if (els[i] != el) {
+                        els[i].classList.add("hidden");
+                    }
+                }
+                el.classList.remove("hidden");
+            }
+            async function start() {
+                screen("waiting");
+                var connection = await protocolv3.connect(protocolv3.defaultConfig, document.getElementById("server").value, document.getElementById("manifest").value, () => {
+                    screen("error");
                 });
-                var signUp = connection.sendHandle("Join");
+                var join = connection.sendHandle("Join");
                 connection.onOpen(() => {
-                    signUp("weird_pusheen");
+                    join(document.getElementById("name").value);
                 });
             }
-            main();
+            function set(server, manifest) {
+                document.getElementById("server").value = server;
+                document.getElementById("manifest").value = manifest;
+            }
+            screen("entryscreen");
         </script>
     </body>
 </html>

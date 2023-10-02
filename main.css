@@ -40,3 +40,25 @@ input[type="text"] {
 .center {
     text-align: center;
 }
+
+.hidden {
+    display: none;
+}
+
+#waiting, #error {
+    background-color: black;
+    color: white;
+}
+
+#server-menu {
+    position: absolute;
+    display: none;
+    left: 0px;
+    border: 1px solid black;
+    background-color: white;
+    flex-direction: column;
+}
+
+#server:focus + #server-menu, #server-menu:active {
+    display: flex;
+}

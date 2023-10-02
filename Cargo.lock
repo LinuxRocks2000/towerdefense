@@ -190,9 +190,9 @@ dependencies = [
 
 [[package]]
 name = "protocol_v3"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e5ba9f3455e2a4a83cb9b754eb8fe731739752da4d9a30400a8ea0d087d34c1"
+checksum = "c69ea4ee804213afce4f2ec3b854803cc5bba984ffe1eda93596c9b3bbe3798d"
 dependencies = [
  "base64",
  "hex",
