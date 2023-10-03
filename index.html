@@ -53,6 +53,10 @@
                 connection.onOpen(() => {
                     join(document.getElementById("name").value);
                 });
+                connection.setOnMessage("Welcome", (gamew, gameh, id) => {
+                    alert("I am in with id " + id);
+                    screen("game");
+                });
             }
             function set(server, manifest) {
                 document.getElementById("server").value = server;

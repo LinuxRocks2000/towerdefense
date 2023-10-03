@@ -8,6 +8,6 @@ trait GamePieceController {
 
 
 pub struct GamePiece {
-    controller : Box<dyn GamePieceController>,
+    controller : Box<dyn GamePieceController + Send>,
     physics : PhysicsObject
 }
