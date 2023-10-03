@@ -6,9 +6,10 @@ use protocol_v3::server::{ WebSocketServer, WebSocketClientStream };
 pub mod gamepiece;
 pub mod physics;
 use gamepiece::GamePiece;
+use tokio::select;
 
 
-#[derive(ProtocolFrame)]
+#[derive(ProtocolFrame, Debug)]
 enum ClientToServer {
     Join (String) // name
 }
@@ -20,8 +21,23 @@ enum ServerToClient {
 }
 
 
-async fn handle_client(client : WebSocketClientStream) {
+async fn handle_client(mut client : WebSocketClientStream) {
+    'rloop: loop {
+        select!{
+            frame = client.read::<ClientToServer>() => {
+                if frame.is_none() {
+                    break 'rloop;
+                }
+                let frame = frame.unwrap();
+                match frame {
+                    ClientToServer::Join (name) => {
 
+                    }
+                }
+            }
+        }
+    }
+    println!("Dropping client.");
 }
 
 

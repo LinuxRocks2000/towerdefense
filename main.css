@@ -45,11 +45,6 @@ input[type="text"] {
     display: none;
 }
 
-#waiting, #error {
-    background-color: black;
-    color: white;
-}
-
 #server-menu {
     position: absolute;
     display: none;
@@ -61,4 +56,19 @@ input[type="text"] {
 
 #server:focus + #server-menu, #server-menu:active {
     display: flex;
+}
+
+@media (prefers-color-scheme: dark) {
+    body > div {
+        background-color: black;
+        color: white;
+    }
+    * {
+        font-weight: 400;
+    }
+}
+
+input {
+    background-color: inherit;
+    color: inherit;
 }
